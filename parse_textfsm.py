@@ -2,9 +2,8 @@ from textfsm import TextFSM
 
 
 def main():
-    # template_path: str = 'templates/netscaler-add-server.textfsm'
-    # template_path: str = 'templates/netscaler-add-service.textfsm'
-    template_path: str = 'templates/netscaler-add-gslb-vserver.textfsm'
+    template_path: str = 'templates/netscaler-add-server.textfsm'
+
     config_path: str = 'data/lb-config.txt'
 
     config: str
