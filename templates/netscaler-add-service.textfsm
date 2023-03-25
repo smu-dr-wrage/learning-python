@@ -1,0 +1,48 @@
+# Parse Citrix Netscaler configuration for 'add service' entries
+# https://developer-docs.citrix.com/projects/netscaler-command-reference/en/12.0/basic/service/service/#add-service
+# add service <name>@ (<IP>@ | <serverName>@) <serviceType> <port> [-clearTextPort <port>] [-cacheType <cacheType>] [-maxClient <positive_integer>] [-healthMonitor ( YES | NO )] [-maxReq <positive_integer>] [-cacheable ( YES | NO )] [-cip ( ENABLED | DISABLED ) [<cipHeader>]] [-usip ( YES | NO )] [-pathMonitor ( YES | NO )] [-pathMonitorIndv ( YES | NO )] [-useproxyport ( YES | NO )] [-sp ( ON | OFF )] [-rtspSessionidRemap ( ON | OFF )] [-cltTimeout <secs>] [-svrTimeout <secs>] [-CustomServerID <string>] [-CKA ( YES | NO )] [-TCPB ( YES | NO )] [-CMP ( YES | NO )] [-maxBandwidth <positive_integer>] [-accessDown ( YES | NO )] [-monThreshold <positive_integer>] [-state ( ENABLED | DISABLED )] [-downStateFlush ( ENABLED | DISABLED )] [-tcpProfileName <string>] [-httpProfileName <string>] [-hashId <positive_integer>] [-comment <string>] [-appflowLog ( ENABLED | DISABLED )] [-netProfile <string>] [-td <positive_integer>] [-processLocal ( ENABLED | DISABLED )] [-dnsProfileName <string>] [-monConnectionClose ( RESET | FIN )]
+#
+Value IP_ADDRESS ((?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))
+Value NAME (\S+)
+Value SERVER_NAME (\S+)
+Value SERVICE_TYPE (HTTP|FTP|TCP|UDP|SSL|SSL_BRIDGE|SSL_TCP|DTLS|NNTP|RPCSVR|DNS|ADNS|SNMP|RTSP|DHCPRA|ANY|SIP_UDP|SIP_TCP|SIP_SSL|DNS_TCP|ADNS_TCP|MYSQL|MSSQL|ORACLE|RADIUS|RADIUSListener|RDP|DIAMETER|SSL_DIAMETER|TFTP|SMPP|PPTP|GRE|SYSLOGTCP|SYSLOGUDP|FIX|SSL_FIX|USER_TCP|USER_SSL_TCP)
+Value PORT (\d+|\*)
+Value GSLB_OPTION (\S+)
+Value MAX_CLIENT_CONNECTIONS (\d+)
+Value MAX_PERSISTENT_REQUESTS (\d+)
+Value CIP_STATE (ENABLED|DISABLED)
+Value USE_CLIENT_SOURCE_IP (YES|NO)
+Value USE_PROXY_PORT (YES|NO)
+Value SURGE_PROTECTION (ON|OFF)
+Value CLEAR_TEXT_PORT (\d+)
+Value CACHE_TYPE (TRANSPARENT|REVERSE|FORWARD)
+Value HEALTH_MONITOR (YES|NO)
+Value CACHEABLE (YES|NO)
+Value PATH_MONITOR (YES|NO)
+Value PATH_MONITOR_INDV (YES|NO)
+Value RTSP_SESSIONID_REMAP (ON|OFF)
+Value CLIENT_TIMEOUT (\d+)
+Value SERVER_TIMEOUT (\d+)
+Value CUSTOM_SERVER_ID (\S+)
+Value CLIENT_KEEPALIVE (YES|NO)
+Value TCP_BUFFERING (YES|NO)
+Value COMPRESSION (YES|NO)
+Value MAX_BANDWIDTH (\d+)
+Value ACCESS_DOWN (YES|NO)
+Value MONITOR_THRESHOLD (\d+)
+Value STATE (ENABLED|DISABLED)
+Value DOWN_STATE_FLUSH (ENABLED|DISABLED)
+Value TCP_PROFILE_NAME (\S+)
+Value HTTP_PROFILE_NAME (\S+)
+Value HASH_ID (\d+)
+Value COMMENT (\S+)
+Value APPFLOW_LOG (ENABLED|DISABLED)
+Value NET_PROFILE (\S+)
+Value TRAFFIC_DOMAIN (\d+)
+Value PROCESS_LOCAL (ENABLED|DISABLED)
+Value DNS_PROFILE_NAME (\S+)
+Value MON_CONNECTION_CLOSE (RESET|FIN|NONE)
+
+Start
+  ^add service ${NAME} (${IP_ADDRESS}|${SERVER_NAME}) ${SERVICE_TYPE} ${PORT} ((-gslb ${GSLB_OPTION}|-maxClient ${MAX_CLIENT_CONNECTIONS}|-maxReq ${MAX_PERSISTENT_REQUESTS}|-cip ${CIP_STATE}|-usip ${USE_CLIENT_SOURCE_IP}|-useproxyport ${USE_PROXY_PORT}|-sp ${SURGE_PROTECTION}|-clearTextPort ${CLEAR_TEXT_PORT}|-cacheType ${CACHE_TYPE}|-healthMonitor ${HEALTH_MONITOR}|-cacheable ${CACHEABLE}|-pathMonitor ${PATH_MONITOR}|-pathMonitorIndv ${PATH_MONITOR_INDV}|-rtspSessionidRemap ${RTSP_SESSIONID_REMAP}|-cltTimeout ${CLIENT_TIMEOUT}|-svrTimeout ${SERVER_TIMEOUT}|-CustomServerID ${CUSTOM_SERVER_ID}|-CKA ${CLIENT_KEEPALIVE}|-TCPB ${TCP_BUFFERING}|-CMP ${COMPRESSION}|-maxBandwidth ${MAX_BANDWIDTH}|-accessDown ${ACCESS_DOWN}|-monThreshold ${MONITOR_THRESHOLD}|-state ${STATE}|-downStateFlush ${DOWN_STATE_FLUSH}|-tcpProfileName ${TCP_PROFILE_NAME}|-httpProfileName ${HTTP_PROFILE_NAME}|-hashId ${HASH_ID}|-comment ${COMMENT}|-appflowLog ${APPFLOW_LOG}|-netProfile ${NET_PROFILE}|-td ${TRAFFIC_DOMAIN}|-processLocal ${PROCESS_LOCAL}|-dnsProfileName ${DNS_PROFILE_NAME}|-monConnectionClose ${MON_CONNECTION_CLOSE}| )\s+)* -> Next.Record
+  ^add service . -> Error
