@@ -1,0 +1,10 @@
+# Parse Citrix Netscaler configuration for 'add server' entries
+# https://developer-docs.citrix.com/projects/netscaler-command-reference/en/12.0/basic/server/server/#add-server
+# add server <name>@ (<IPAddress>@ | (<domain>@ [-domainResolveRetry <integer>] [-IPv6Address ( YES | NO )]) | (-translationIp <ip_addr> -translationMask <netmask>)) [-state ( ENABLED | DISABLED )] [-comment <string>] [-td <positive_integer>]
+#Value NAME ([a-zA-Z0-9_]{1}[a-zA-Z0-9_#\.\- :@=]*)
+Value NAME (\S+)
+Value IP_ADDRESS ((?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))
+
+Start
+  ^add server ${NAME} ${IP_ADDRESS} -> Next.Record
+  ^add server -> Error
