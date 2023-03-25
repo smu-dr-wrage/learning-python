@@ -1,0 +1,36 @@
+# Parse Citrix Netscaler configuration for 'add gslb vserver' entries
+# https://developer-docs.citrix.com/projects/netscaler-command-reference/en/12.0/gslb/gslb-vserver/gslb-vserver/
+# add gslb vserver <name> <serviceType> [-dnsRecordType <dnsRecordType>] [-lbMethod <lbMethod>] [-backupLBMethod <backupLBMethod>] [-netmask <netmask>] [-v6netmasklen <positive_integer>] [-tolerance <positive_integer>] [-persistenceType ( SOURCEIP | NONE )] [-persistenceId <positive_integer>] [-persistMask <netmask>] [-v6persistmasklen <positive_integer>] [-timeout <mins>] [-EDR ( ENABLED | DISABLED )] [-ECS ( ENABLED | DISABLED )] [-ecsAddrValidation ( ENABLED | DISABLED )] [-MIR ( ENABLED | DISABLED )] [-disablePrimaryOnDown ( ENABLED | DISABLED )] [-dynamicWeight <dynamicWeight>] [-state ( ENABLED | DISABLED )] [-considerEffectiveState ( NONE | STATE_ONLY )] [-comment <string>] [-soMethod <soMethod>] [-soPersistence ( ENABLED | DISABLED )] [-soPersistenceTimeOut <positive_integer>] [-soThreshold <positive_integer>] [-soBackupAction <soBackupAction>] [-appflowLog ( ENABLED | DISABLED )]
+#
+Value NAME (\S+)
+Value SERVICE_TYPE (HTTP|FTP|TCP|UDP|SSL|SSL_BRIDGE|SSL_TCP|NNTP|ANY|SIP_UDP|SIP_TCP|SIP_SSL|RADIUS|RDP|RTSP|MYSQL|MSSQL|ORACLE)
+Value DNS_RECORD_TYPE (A|AAAA|CNAME|NAPTR)
+Value LB_METHOD (ROUNDROBIN|LEASTCONNECTION|LEASTRESPONSETIME|SOURCEIPHASH|LEASTBANDWIDTH|LEASTPACKETS|STATICPROXIMITY|RTT|CUSTOMLOAD)
+Value BACKUP_LB_METHOD (ROUNDROBIN|LEASTCONNECTION|LEASTRESPONSETIME|SOURCEIPHASH|LEASTBANDWIDTH|LEASTPACKETS|STATICPROXIMITY|RTT|CUSTOMLOAD)
+Value NETMASK (\S+)
+Value V6_NETMASK_LENGTH (\d+)
+Value TOLERANCE (\d+)
+Value PERSISTENCE_TYPE (SOURCEIP|NONE)
+Value PERSISTENCE_ID (\d+)
+Value PERSIST_MASK (\S+)
+Value V6_PERSIST_MASK_LENGTH (\d+)
+Value TIMEOUT (\d+)
+Value EDR (ENABLED|DISABLED)
+Value ECS (ENABLED|DISABLED)
+Value ECS_ADDR_VALIDATION (ENABLED|DISABLED)
+Value MULTI_ADDRESS_DNS_RESPONSE (ENABLED|DISABLED)
+Value DISABLE_PRIMARY_ON_DOWN (ENABLED|DISABLED)
+Value DYNAMIC_WEIGHT (SERVICECOUNT|SERVICEWEIGHT|DISABLED)
+Value STATE (ENABLED|DISABLED)
+Value CONSIDER_EFFECTIVE_STATE (NONE|STATE_ONLY)
+Value COMMENT (\S+)
+Value SO_METHOD (CONNECTION|DYNAMICCONNECTION|BANDWIDTH|HEALTH|NONE)
+Value SO_PERSISTENCE (ENABLED|DISABLED)
+Value SO_PERSISTENCE_TIME_OUT (\d+)
+Value SO_THRESHOLD (\d+)
+Value SO_BACKUP_ACTION (DROP|ACCEPT|REDIRECT)
+Value APPFLOW_LOG (ENABLED|DISABLED)
+
+Start
+  ^add gslb vserver $NAME $SERVICE_TYPE( -dnsRecordType ${DNS_RECORD_TYPE}| -lbMethod ${LB_METHOD}| -backupLBMethod ${BACKUP_LB_METHOD}| -netmask ${NETMASK}| -v6netmasklen ${V6_NETMASK_LENGTH}| -tolerance ${TOLERANCE}| -persistenceType ${PERSISTENCE_TYPE}| -persistenceId ${PERSISTENCE_ID}| -persistMask ${PERSIST_MASK}| -v6persistmasklen ${V6_PERSIST_MASK_LENGTH}| -timeout ${TIMEOUT}| -EDR ${EDR}| -ECS ${ECS}| -ecsAddrValidation ${ECS_ADDR_VALIDATION}| -MIR ${MULTI_ADDRESS_DNS_RESPONSE}| -disablePrimaryOnDown ${DISABLE_PRIMARY_ON_DOWN}| -dynamicWeight ${DYNAMIC_WEIGHT}| -state ${STATE}| -considerEffectiveState ${CONSIDER_EFFECTIVE_STATE}| -comment ${COMMENT}| -soMethod ${SO_METHOD}| -soPersistence ${SO_PERSISTENCE}| -soPersistenceTimeOut ${SO_PERSISTENCE_TIME_OUT}| -soThreshold ${SO_THRESHOLD}| -soBackupAction ${SO_BACKUP_ACTION}| -appflowLog ${APPFLOW_LOG})* -> Next.Record
+  ^add gslb vserver .* -> Error
