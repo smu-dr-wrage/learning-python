@@ -1,3 +1,6 @@
 jupyterlab
 notebook
 voila
+ncclient
+textfsm
+netconf-client
