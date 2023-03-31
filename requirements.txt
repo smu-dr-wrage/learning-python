@@ -4,3 +4,4 @@ voila
 ncclient
 textfsm
 netconf-client
+requests
